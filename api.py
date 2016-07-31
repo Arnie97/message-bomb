@@ -1,3 +1,5 @@
+import sys
+import types
 import requests
 
 ua = {
@@ -32,3 +34,19 @@ def yuu1(phone_number):
     url = 'http://www.yuu1.com/app_api/reg_yuu1'
 
     requests.post(url, data=payload, headers=ua)
+
+
+class Wrapper(dict):
+    def __init__(self, *args, **kwargs):
+        super(*args, **kwargs)
+        g = globals()
+        self.update({
+            k: g[k] for k in g
+            if isinstance(g[k], types.FunctionType)
+        })
+
+    def __getattr__(self, key):
+        return self[key] if key in self else self.__getattribute__(key)
+
+Wrapper.__name__ = __name__
+sys.modules[__name__] = Wrapper()
